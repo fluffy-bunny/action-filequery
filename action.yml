@@ -1,6 +1,9 @@
 name: 'Recursive File Query by Extension'
 description: 'Recursively queries a folder by file extensions and produces a results file.'
 author: 'Fluffy Bunny'
+branding:
+  icon: 'filter'  
+  color: 'yellow'
 inputs:
   fileExtensions:           
     description: 'The file extensions to query.'
