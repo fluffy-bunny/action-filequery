@@ -73,9 +73,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
+const fs_1 = __webpack_require__(747);
+const path = __importStar(__webpack_require__(622));
 const wait_1 = __webpack_require__(521);
 function sayHello(callback) {
-    callback('hi');
+    return __awaiter(this, void 0, void 0, function* () {
+        yield callback('./dist/found/file.exe');
+    });
 }
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -92,9 +96,15 @@ function run() {
             }
             core.info(`folder: ${folder}`);
             core.info(`outputFile: ${outputFile}`);
-            sayHello((result) => {
-                core.info(`result: ${result}`);
+            const LogHello = (filePath) => __awaiter(this, void 0, void 0, function* () {
+                try {
+                    core.info(`result: ${filePath}`);
+                }
+                catch (error) {
+                    throw error;
+                }
             });
+            yield sayHello(LogHello);
             //  const folderPath = path.dirname(folder)
             const ms = core.getInput('milliseconds');
             core.debug(`Waiting ${ms} milliseconds ...`);
@@ -105,6 +115,45 @@ function run() {
         }
         catch (error) {
             core.setFailed(error.message);
+        }
+    });
+}
+function queryFilesTo(filePath, folder, recursive, signtoolFileExtensions) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const files = yield fs_1.promises.readdir(folder);
+        for (const file of files) {
+            const fullPath = `${folder}/${file}`;
+            const stat = yield fs_1.promises.stat(fullPath);
+            if (stat.isFile()) {
+                const extension = path.extname(file);
+                if (signtoolFileExtensions.includes(extension) ||
+                    extension === '.nupkg') {
+                    yield simpleAppend(filePath, `\n${fullPath}`);
+                }
+            }
+            else if (stat.isDirectory() && recursive) {
+                yield queryFilesTo(filePath, fullPath, recursive, signtoolFileExtensions);
+            }
+        }
+    });
+}
+function simpleFileWrite(filePath, content) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield fs_1.promises.writeFile(filePath, content);
+        }
+        catch (err) {
+            core.info(err);
+        }
+    });
+}
+function simpleAppend(filePath, content) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield fs_1.promises.appendFile(filePath, content);
+        }
+        catch (err) {
+            core.info(err);
         }
     });
 }
@@ -422,6 +471,13 @@ exports.wait = wait;
 /***/ (function(module) {
 
 module.exports = require("path");
+
+/***/ }),
+
+/***/ 747:
+/***/ (function(module) {
+
+module.exports = require("fs");
 
 /***/ })
 
