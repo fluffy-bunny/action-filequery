@@ -1,6 +1,6 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Recursive File Query by Extension'
+description: 'Recursively queries a folder by file extensions and produces a results file.'
+author: 'Fluffy Bunny'
 inputs:
   fileExtensions:           
     description: 'The file extensions to query.'
