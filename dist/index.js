@@ -76,17 +76,13 @@ const core = __importStar(__webpack_require__(470));
 const fs_1 = __webpack_require__(747);
 const path = __importStar(__webpack_require__(622));
 const wait_1 = __webpack_require__(521);
-function sayHello(callback) {
-    return __awaiter(this, void 0, void 0, function* () {
-        yield callback('./dist/found/file.exe');
-    });
-}
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const fileExtensions = core.getInput('fileExtensions');
             const folder = core.getInput('folder', { required: true });
             const recursive = core.getInput('recursive') === 'true';
+            const maxDept = parseInt(core.getInput('maxDepth'));
             const outputFile = core.getInput('outputFile');
             core.info(`recursive: ${recursive}`);
             core.info(`fileExtensions: ${fileExtensions}`);
@@ -96,16 +92,17 @@ function run() {
             }
             core.info(`folder: ${folder}`);
             core.info(`outputFile: ${outputFile}`);
-            const LogHello = (filePath) => __awaiter(this, void 0, void 0, function* () {
+            yield simpleFileWrite(outputFile, '');
+            const onFoundFile = (filePath) => __awaiter(this, void 0, void 0, function* () {
                 try {
                     core.info(`result: ${filePath}`);
+                    yield simpleAppend(outputFile, `\n${filePath}`);
                 }
                 catch (error) {
                     throw error;
                 }
             });
-            yield sayHello(LogHello);
-            yield queryFiles(folder, recursive, 4, 0, fileExtensionsObject, LogHello);
+            yield queryFiles(folder, recursive, maxDept, 0, fileExtensionsObject, onFoundFile);
             //  const folderPath = path.dirname(folder)
             const ms = core.getInput('milliseconds');
             core.debug(`Waiting ${ms} milliseconds ...`);

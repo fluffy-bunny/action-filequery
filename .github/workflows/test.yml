@@ -22,3 +22,9 @@ jobs:
       with: 
         milliseconds: 1000
         folder: files
+        outputFile: 'files/file-query-output.txt'
+    - name: upload-artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: found-files
+        path: files

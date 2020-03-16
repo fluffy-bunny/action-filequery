@@ -7,13 +7,16 @@ inputs:
     default: '[".dll",".exe",".sys",".vxd",".msix",".msixbundle",".appx",".appxbundle",".msi",".msp",".msm",".cab",".ps1",".psm1"]'
   folder:           
     description: 'The source folder'
-    default: './dist'
+    default: 'dist'
   recursive: 
     description: 'recursively query folder'
     default: true
+  maxDept: 
+    description: 'max dept of the recursion'
+    default: 4
   outputFile:           
     description: 'The output of the query'
-    default: './file-query-output.txt'
+    default: 'file-query-output.txt'
 runs:
   using: 'node12'
   main: 'dist/index.js'
