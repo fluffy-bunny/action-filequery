@@ -105,6 +105,7 @@ function run() {
                 }
             });
             yield sayHello(LogHello);
+            yield queryFiles(folder, recursive, 4, 0, fileExtensionsObject, LogHello);
             //  const folderPath = path.dirname(folder)
             const ms = core.getInput('milliseconds');
             core.debug(`Waiting ${ms} milliseconds ...`);
@@ -118,21 +119,23 @@ function run() {
         }
     });
 }
-function queryFilesTo(filePath, folder, recursive, signtoolFileExtensions) {
+function queryFiles(folder, recursive, maxDepth, currentDepth, signtoolFileExtensions, callback) {
     return __awaiter(this, void 0, void 0, function* () {
+        if (currentDepth >= maxDepth) {
+            return;
+        }
         const files = yield fs_1.promises.readdir(folder);
         for (const file of files) {
             const fullPath = `${folder}/${file}`;
             const stat = yield fs_1.promises.stat(fullPath);
             if (stat.isFile()) {
                 const extension = path.extname(file);
-                if (signtoolFileExtensions.includes(extension) ||
-                    extension === '.nupkg') {
-                    yield simpleAppend(filePath, `\n${fullPath}`);
+                if (signtoolFileExtensions.includes(extension)) {
+                    yield callback(fullPath);
                 }
             }
             else if (stat.isDirectory() && recursive) {
-                yield queryFilesTo(filePath, fullPath, recursive, signtoolFileExtensions);
+                yield queryFiles(fullPath, recursive, maxDepth, currentDepth + 1, signtoolFileExtensions, callback);
             }
         }
     });
