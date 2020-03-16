@@ -80,9 +80,9 @@ function run() {
             const fileExtensions = core.getInput('fileExtensions');
             const folder = core.getInput('folder');
             const outputFile = core.getInput('outputFile');
-            core.debug(`fileExtensions: ${fileExtensions}`);
-            core.debug(`folder: ${folder}`);
-            core.debug(`outputFile: ${outputFile}`);
+            core.info(`fileExtensions: ${fileExtensions}`);
+            core.info(`folder: ${folder}`);
+            core.info(`outputFile: ${outputFile}`);
             const ms = core.getInput('milliseconds');
             core.debug(`Waiting ${ms} milliseconds ...`);
             core.debug(new Date().toTimeString());

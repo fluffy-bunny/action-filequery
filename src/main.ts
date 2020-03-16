@@ -7,9 +7,9 @@ async function run(): Promise<void> {
     const folder: string = core.getInput('folder')
     const outputFile: string = core.getInput('outputFile')
 
-    core.debug(`fileExtensions: ${fileExtensions}`)
-    core.debug(`folder: ${folder}`)
-    core.debug(`outputFile: ${outputFile}`)
+    core.info(`fileExtensions: ${fileExtensions}`)
+    core.info(`folder: ${folder}`)
+    core.info(`outputFile: ${outputFile}`)
 
     const ms: string = core.getInput('milliseconds')
     core.debug(`Waiting ${ms} milliseconds ...`)
