@@ -81,6 +81,10 @@ function run() {
             const folder = core.getInput('folder');
             const outputFile = core.getInput('outputFile');
             core.info(`fileExtensions: ${fileExtensions}`);
+            const fileExtensionsObject = JSON.parse(fileExtensions);
+            for (const item of fileExtensionsObject) {
+                core.info(`item: ${item}`);
+            }
             core.info(`folder: ${folder}`);
             core.info(`outputFile: ${outputFile}`);
             const ms = core.getInput('milliseconds');

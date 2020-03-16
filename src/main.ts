@@ -8,6 +8,10 @@ async function run(): Promise<void> {
     const outputFile: string = core.getInput('outputFile')
 
     core.info(`fileExtensions: ${fileExtensions}`)
+    const fileExtensionsObject = JSON.parse(fileExtensions)
+    for (const item of fileExtensionsObject) {
+      core.info(`item: ${item}`)
+    }
     core.info(`folder: ${folder}`)
     core.info(`outputFile: ${outputFile}`)
 
