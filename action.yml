@@ -2,9 +2,15 @@ name: 'Your name here'
 description: 'Provide a description here'
 author: 'Your name or organization here'
 inputs:
-  myInput:              # change this
-    description: 'input description here'
-    default: 'default value if applicable'
+  fileExtensions:           
+    description: 'The file extensions to query.'
+    default: '[".dll",".exe",".sys",".vxd",".msix",".msixbundle",".appx",".appxbundle",".msi",".msp",".msm",".cab",".ps1",".psm1"]'
+  folder:           
+    description: 'The source folder'
+    default: './dist'
+  outputFile:           
+    description: 'The output of the query'
+    default: './file-query-output.txt'
 runs:
   using: 'node12'
   main: 'dist/index.js'

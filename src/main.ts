@@ -3,6 +3,14 @@ import {wait} from './wait'
 
 async function run(): Promise<void> {
   try {
+    const fileExtensions: string = core.getInput('fileExtensions')
+    const folder: string = core.getInput('folder')
+    const outputFile: string = core.getInput('outputFile')
+
+    core.debug(`fileExtensions: ${fileExtensions}`)
+    core.debug(`folder: ${folder}`)
+    core.debug(`outputFile: ${outputFile}`)
+
     const ms: string = core.getInput('milliseconds')
     core.debug(`Waiting ${ms} milliseconds ...`)
 
