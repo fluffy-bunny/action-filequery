@@ -74,12 +74,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const wait_1 = __webpack_require__(521);
+function sayHello(callback) {
+    callback('hi');
+}
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const fileExtensions = core.getInput('fileExtensions');
-            const folder = core.getInput('folder');
+            const folder = core.getInput('folder', { required: true });
+            const recursive = core.getInput('recursive') === 'true';
             const outputFile = core.getInput('outputFile');
+            core.info(`recursive: ${recursive}`);
             core.info(`fileExtensions: ${fileExtensions}`);
             const fileExtensionsObject = JSON.parse(fileExtensions);
             for (const item of fileExtensionsObject) {
@@ -87,6 +92,10 @@ function run() {
             }
             core.info(`folder: ${folder}`);
             core.info(`outputFile: ${outputFile}`);
+            sayHello((result) => {
+                core.info(`result: ${result}`);
+            });
+            //  const folderPath = path.dirname(folder)
             const ms = core.getInput('milliseconds');
             core.debug(`Waiting ${ms} milliseconds ...`);
             core.debug(new Date().toTimeString());
