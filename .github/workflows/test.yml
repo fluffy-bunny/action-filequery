@@ -10,15 +10,31 @@ jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - run: |
+    - name: Checkout
+      uses: actions/checkout@v1
+      run: |
         npm install
         npm run all
+
+    - name: upload-artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: my-artifact
+        path: dist
+
   test: # make sure the action works on a clean machine without building
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: download-artifact from build
+      uses: actions/download-artifact@v1
+      with:
+        name: my-artifact
+        path: dist
+
     - uses: ./
       with: 
         folder: files
