@@ -1,8 +1,6 @@
 import * as core from '@actions/core'
 import {promises as fs} from 'fs'
 import * as path from 'path'
-import {wait} from './wait'
-//import * as path from 'path'
 
 type foundFile = (filePath: string) => Promise<void>
 
@@ -40,16 +38,6 @@ async function run(): Promise<void> {
       fileExtensionsObject,
       onFoundFile
     )
-    //  const folderPath = path.dirname(folder)
-
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`)
-
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    core.setOutput('time', new Date().toTimeString())
   } catch (error) {
     core.setFailed(error.message)
   }

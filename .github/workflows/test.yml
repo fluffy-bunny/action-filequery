@@ -15,12 +15,12 @@ jobs:
         npm install
         npm run all
   test: # make sure the action works on a clean machine without building
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - uses: ./
       with: 
-        milliseconds: 1000
         folder: files
         outputFile: 'files/file-query-output.txt'
     - name: upload-artifact
