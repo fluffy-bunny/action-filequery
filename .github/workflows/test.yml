@@ -10,8 +10,11 @@ jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
+
     - name: Checkout
       uses: actions/checkout@v1
+
+    - name: npm build
       run: |
         npm install
         npm run all
@@ -26,6 +29,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+
     - name: Checkout
       uses: actions/checkout@v1
 
@@ -43,4 +47,4 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: found-files
-        path: files 
+        path: files
